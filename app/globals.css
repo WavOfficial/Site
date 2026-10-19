@@ -1,26 +1,98 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Wav's own tokens (Wav/Core/Theme.swift), plus the navy of the screenshot's Now Playing field */
+@theme {
+  --color-wav: #5c7bff;
+  --color-wav-deep: #2f45e8;
+  --color-ink: #ffffff;
+  --color-secondary: rgb(255 255 255 / 0.65);
+  --color-tertiary: rgb(255 255 255 / 0.4);
+  --color-grouped: #1c1c1e;
+  --color-field: #1f3057;
+  --color-field-deep: #0d3d63;
+  --font-sans: -apple-system, BlinkMacSystemFont, var(--font-inter), "Helvetica Neue", Arial, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: #000;
+  color-scheme: dark;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-wav);
+  outline-offset: 3px;
+}
+
+/* The app's white Play pill */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 52px;
+  border-radius: 999px;
+  padding: 0 1.75rem;
+  font-size: 17px;
+  font-weight: 600;
+  background: #fff;
+  color: #000;
+  transition: transform 0.15s, background-color 0.2s;
+}
+.pill:hover {
+  background: #e8e8ed;
+}
+.pill:active {
+  transform: scale(0.97);
+}
+
+.link {
+  color: var(--color-wav);
+}
+.link:hover {
+  text-decoration: underline;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* The headline is sung once on load like the app's karaoke lyrics: a soft-edged fill sweeps each word, the word
+   rises a little once sung, and the next word starts only when this one is done (delays set in page.tsx) */
+@keyframes sing {
+  from {
+    background-position: 100% 0;
+    transform: none;
+  }
+  to {
+    background-position: 0 0;
+    transform: translateY(-0.03em);
+  }
+}
+.sung {
+  display: inline-block;
+  background: linear-gradient(90deg, #fff 42%, rgb(255 255 255 / 0.28) 58%) 100% 0 / 260% 100% no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation-name: sing;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sung {
+    animation: none;
+    background: none;
+    color: #fff;
+    transform: none;
+  }
 }
