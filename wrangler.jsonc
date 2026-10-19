@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "wav-site",
+  "compatibility_date": "2026-10-12",
+  // Static export (next.config.ts `output: "export"`) — serve `out/` as Workers static assets.
+  // Having this file stops `wrangler deploy` from auto-configuring the OpenNext adapter.
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
